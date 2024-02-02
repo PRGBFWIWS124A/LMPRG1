@@ -32,7 +32,8 @@ public class Regex {
 	}
 	
 	static void findTwoCapitalLetters(String input) {
-		regexFindOut(input, "[A-Z]{2}");
+//		regexFindOut(input, "[A-Z]{2}");
+		regexFindOut(input, "[A-Z][A-Z]");
 	}
 	
 	static void findTor(String input) {
@@ -40,10 +41,11 @@ public class Regex {
 	}
 	
 	static void findVarName(String input) {
-		regexFindOut(input, "(([A-Z]|[a-z])+[0-9]*)+");
+		regexFindOut(input, "[a-zA-Z_$][a-zA-Z_$0-9]*");
 	}
 	
 	static void findAgeWithGender(String input) {
-		regexFindOut(input, "[1-9]+[0-9]*(w|m|d)");
+//		regexFindOut(input, "[1-9][0-9]*(w|m|d)");
+		regexFindOut(input, "[1-9][0-9]*[wmd]");
 	}
 }
