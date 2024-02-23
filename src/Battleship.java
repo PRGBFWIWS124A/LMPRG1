@@ -19,6 +19,7 @@ public class Battleship {
 //		System.out.println(coo);
 //		System.out.println(toCoordinate("J8"));
 		System.out.println(getStartCoordinatePrompt(5));
+		showRowNumber(5);
 	}
 	
 	static int distance(final Coordinate start, final Coordinate end) {
@@ -85,4 +86,15 @@ public class Battleship {
 		return String.format(ENTER_SHIP_COORDINATE_PROMPT, "End", length);
 	}
 	
+//	static void showRowNumber(final int row) {
+//		int rowNumber = row + 1;
+//		if (rowNumber < 10) {
+//			System.out.print(" ");
+//		}
+//		System.out.print(rowNumber);
+//	}
+	
+	static void showRowNumber(final int row) {
+		System.out.printf("% 2d", row + 1);
+	}
 }
