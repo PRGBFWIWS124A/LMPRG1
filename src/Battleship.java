@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Iterator;
@@ -261,4 +262,42 @@ public class Battleship {
 
 		return true;
 	}
+	
+	static Coordinate readCoordinate(final String prompt) {
+		System.out.print(prompt);
+		
+		String input = "";
+		
+		while(!isValidCoordinate(input)) {
+			try {
+				input = Utility.readStringFromConsole();
+			} catch (IOException e) {}	
+		}
+		return toCoordinate(input);
+	}
+	
+	static Coordinate getRandomUnshotCoordinate(final Field[][] field) {
+		int chances = 0;
+		for (int row = 0; row < field.length; row++) {
+			for (int column = 0; column < field.length; column++) {
+				if(field[row][column] == Field.FREE || field[row][column] == Field.SHIP) {
+					chances++;
+				}
+			}
+		}
+		int rand = Utility.getRandomInt(chances);
+		for (int row = 0; row < field.length; row++) {
+			for (int column = 0; column < field.length; column++) {
+				if(field[row][column] == Field.FREE || field[row][column] == Field.SHIP) {
+					rand--;
+					if (rand < 0) {
+						return new Coordinate(column, row);
+					}
+				}
+			}
+		}
+		
+		throw new IllegalStateException();
+	}
 }
+ 
