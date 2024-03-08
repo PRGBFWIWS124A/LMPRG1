@@ -10,6 +10,7 @@ public class Battleship {
 	static final int SIZE = 10;
 	static final String SEPARATOR = "   +-+-+-+-+-+-+-+-+-+-+      +-+-+-+-+-+-+-+-+-+-+";
 	static final String ENTER_SHIP_COORDINATE_PROMPT = "Geben Sie die %skoordinaten für ein Schiff der Länge %d ein: ";
+	static final int ALL_HIT = 14;
 
 	public static void main(String[] args) {
 		//		Coordinate coo = null;
@@ -262,12 +263,12 @@ public class Battleship {
 
 		return true;
 	}
-	
+
 	static Coordinate readCoordinate(final String prompt) {
 		System.out.print(prompt);
-		
+
 		String input = "";
-		
+
 		while(!isValidCoordinate(input)) {
 			try {
 				input = Utility.readStringFromConsole();
@@ -275,7 +276,7 @@ public class Battleship {
 		}
 		return toCoordinate(input);
 	}
-	
+
 	static Coordinate getRandomUnshotCoordinate(final Field[][] field) {
 		int chances = 0;
 		for (int row = 0; row < field.length; row++) {
@@ -296,8 +297,59 @@ public class Battleship {
 				}
 			}
 		}
-		
+
 		throw new IllegalStateException();
 	}
+	
+	static void shot(final Coordinate shot, final Field [][] field)
+	{
+		switch (field[shot.row()][shot.column()]) {
+		case FREE:
+			field[shot.row()][shot.column()] = Field.WATER_HIT;
+			break;
+		case SHIP:
+			field[shot.row()][shot.column()] = Field.SHIP_HIT;
+			if(shipSunk(shot, field)) {
+				fillWaterHits(shot, field);
+			}
+			break;
+		}
+
+	}
+
+	static Coordinate readEndCoordinate(final int length) {	
+		return readCoordinate(getEndCoordinatePrompt(length));
+	}
+
+	static Coordinate readStartCoordinate(final int length) {
+		return readCoordinate(getStartCoordinatePrompt(length));
+	}
+
+	static boolean allHit(final Field[][] field) {
+		return countHits(field) == ALL_HIT;
+	}
+
+	static boolean endCondition(final Field[][] ownField, final Field[][] otherField) {
+		return allHit(ownField) && allHit(otherField);
+	}
+
+	static boolean validPosition(
+			final Coordinate start,
+			final Coordinate end,
+			final int length,
+			final Field[][] field
+			) {
+		return 
+				noConflict(start, end, field) && 
+				distance(start, end) == length - 1 &&
+				(start.column() == end.column() || start.row() == end.row());
+	}
+
+
+	static void turn(final Field[][] ownField, final Field[][] otherField) {
+		showFields(ownField, otherField);
+		shot(readCoordinate("Wo möchtest du hin schießen?"), otherField);
+		shot(getRandomCoordinate(), ownField);
+		
+	}
 }
- 

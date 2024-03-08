@@ -1,2 +1,2 @@
 
-public record TournamentNode(TournamentNode left, TournamentNode Right) {}
+public record TournamentNode(TournamentNode left, TournamentNode right, String winner, int points) {}
