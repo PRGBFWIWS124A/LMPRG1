@@ -12,16 +12,16 @@ class StackReverse {
 
         int laenge = word.length();
         
-        Stack<E> stack = new Stack<>();
+        Stack<Character> stack = new Stack<>();
 
         for (int i = 0; i < laenge; i++){
 
-            char stackSave = word.StringValueOf(i+1);
+            char stackSave = word.charAt(i+1);
             stack.push(stackSave);
 
         }
 
         System.out.println(stack);
-
+        return stack;
     }
 }
